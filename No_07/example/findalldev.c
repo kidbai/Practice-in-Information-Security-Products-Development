@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <pcap.h>
+#include <string.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
@@ -12,10 +13,8 @@ int main()
 	char * maskaddr;
 	char errbuf[PCAP_ERRBUF_SIZE];
 	struct in_addr addr;
-	//struct pcap_if pif;
+	// struct pcap_if pif;
 	struct pcap_if* ppif;
-
-	
 
 	bpf_u_int32 netp;
 	bpf_u_int32 maskp;
@@ -25,17 +24,17 @@ int main()
 	maskaddr = NULL;
 	memset(errbuf,0,PCAP_ERRBUF_SIZE);
 	ppif = NULL;
-	//ppif = pif;
-	
-	
+	// ppif = pif;
+
+
 	if (-1 == pcap_findalldevs(&ppif,errbuf))
 	{
 		perror("find device error\n ");
 		perror("errbuf\n");
 		return 1;
 	}
-	
-		
+
+
 	if (NULL == ppif )
 	{
 		perror("can not get device message\n");
@@ -49,13 +48,13 @@ int main()
 
 		fprintf(stderr,"the %d device name is %s\n",count,ppif->name);
 		count++;
-		
+
 		if (-1 == pcap_lookupnet(ppif->name,&netp,&maskp,errbuf))
 		{
 			perror("can not get the device message\n");
-			continue;	
+			continue;
 		}
-		
+
 		addr.s_addr = netp;
 		netaddr = inet_ntoa(addr);
 
